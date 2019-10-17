@@ -1,0 +1,41 @@
+{
+    "name": "phoole/event",
+    "type": "library",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "description": "A slim PSR-14 event implementation",
+    "keywords": ["phoole", "library", "php", "event", "swoole"],
+    "authors": [
+        {
+            "name": "Hong Zhang",
+            "homepage": "https://github.com/phoole"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "psr/event-dispatcher": "^1.0.0",
+        "phoole/base": "^1.0.15"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "provide": {
+        "psr/event-dispatcher-implementation": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phoole\\Event\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phoole\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "scripts": {
+        "test": "phpunit",
+        "check": "phpcs --standard=psr12 src/",
+        "format": "phpcbf --standard=psr12 src/"
+    }
+}

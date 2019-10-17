@@ -1,0 +1,11 @@
+# git stuff
+.git
+
+# composer files
+composer.phar
+composer.lock
+vendor
+
+# phpunit files
+phpunit.phar
+.phpunit.result.cache
