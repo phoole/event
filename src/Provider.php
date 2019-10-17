@@ -24,14 +24,14 @@ class Provider implements ListenerProviderInterface
 {
     /**
      * event classes listened
-     * @var string[]
+     * @var PriorityQueue[]
      */
     protected $listened = [];
 
     /**
      * @param object $event
      *   An event for which to return the relevant listeners.
-     * @return iterable[callable]
+     * @return iterable
      *   An iterable (array, iterator, or generator) of callables.  Each
      *   callable MUST be type-compatible with $event.
      */
