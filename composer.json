@@ -2,7 +2,7 @@
     "name": "phoole/event",
     "type": "library",
     "license": "Apache-2.0",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A slim PSR-14 event implementation",
     "keywords": ["phoole", "library", "php", "event", "swoole"],
     "authors": [
@@ -14,7 +14,7 @@
     "require": {
         "php": ">=7.2.0",
         "psr/event-dispatcher": "^1.0.0",
-        "phoole/base": "^1.0.15"
+        "phoole/base": "^1.0.16"
     },
     "require-dev": {
         "phpunit/phpunit": "^8"

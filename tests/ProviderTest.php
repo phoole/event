@@ -76,91 +76,33 @@ class ProviderTest extends TestCase
     }
 
     /**
-     * @covers Phoole\Event\Provider::getCallableType()
+     * @covers Phoole\Event\Provider::getEventClass()
      */
-    public function testGetCallableType()
-    {
-        // string
-        $this->assertEquals(
-            'function',
-            $this->invokeMethod('getCallableType', [__NAMESPACE__ . '\\myFunc'])
-        );
-
-        $this->assertEquals(
-            'function',
-            $this->invokeMethod('getCallableType', [function(StoppableEvent $e) { return $e; }])
-        );
-
-        // invokable
-        $this->assertEquals(
-            'invokable',
-            $this->invokeMethod('getCallableType', [ new myClass() ])
-        );
-
-        // class
-        $this->assertEquals(
-            'class',
-            $this->invokeMethod('getCallableType', [ [new myClass(), 'myMethod']])
-        );
-
-        $this->assertEquals(
-            'class',
-            $this->invokeMethod('getCallableType', [ [__NAMESPACE__ . '\\myClass', 'myStatic']])
-        );
-
-        // unknown ？
-    }
-
-    /**
-     * @covers Phoole\Event\Provider::getParameterClass()
-     */
-    public function testGetParameterClass()
+    public function testGetEventClass()
     {
         // string
         $this->assertEquals(
             'Phoole\Event\StoppableEvent',
-            $this->invokeMethod('getParameterClass', [__NAMESPACE__ . '\\myFunc'])
+            $this->invokeMethod('getEventClass', [__NAMESPACE__ . '\\myFunc'])
         );
 
-        $this->assertEquals(
-            'Phoole\Event\StoppableEvent',
-            $this->invokeMethod('getParameterClass', [function(StoppableEvent $e) { return $e; }])
-        );
-
-        // invokable
-        $this->assertEquals(
-            'Phoole\Event\StoppableEvent',
-            $this->invokeMethod('getParameterClass', [ new myClass()])
-        );
-
-        // class
-        $this->assertEquals(
-            'Phoole\Event\StoppableEvent',
-            $this->invokeMethod('getParameterClass', [[new myClass(), 'myMethod']])
-        );
-
-        $this->assertEquals(
-            'Phoole\Event\StoppableEvent',
-            $this->invokeMethod('getParameterClass', [[__NAMESPACE__ . '\\myClass', 'myStatic']])
-        );
-
-        // exception
+        // no event defined
         $this->expectExceptionMessage('must declare one object');
         $this->assertEquals(
             'Phoole\Event\StoppableEvent',
-            $this->invokeMethod('getParameterClass', [[new myClass(), 'noParam']])
+            $this->invokeMethod('getEventClass', [[new myClass(), 'noParam']])
         );        
     }
 
     /**
-     * @covers Phoole\Event\Provider::getParameterClass()
+     * @covers Phoole\Event\Provider::getEventClass()
      */
-    public function testGetParameterClass2()
+    public function testGetEventClass2()
     {
         $this->expectExceptionMessage('must declare one object');
         $this->assertEquals(
             'string',
-            $this->invokeMethod('getParameterClass', [[new myClass(), 'paramIsString']])
+            $this->invokeMethod('getEventClass', [[new myClass(), 'paramIsString']])
         );
     }
 

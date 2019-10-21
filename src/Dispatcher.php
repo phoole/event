@@ -69,7 +69,7 @@ class Dispatcher implements EventDispatcherInterface
      */
     protected function addProvider(ListenerProviderInterface $provider)
     {
-        $hash = spl_object_hash($provider);
+        $hash = \spl_object_hash($provider);
         if (!isset($this->providers[$hash])) {
             $this->providers[$hash] = $provider;
         } else {
