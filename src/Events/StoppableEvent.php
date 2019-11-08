@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace Phoole\Event;
+namespace Phoole\Event\Events;
 
 use Psr\EventDispatcher\StoppableEventInterface;
 
@@ -23,7 +23,7 @@ abstract class StoppableEvent implements StoppableEventInterface
     /**
      * @var    bool
      */
-    protected $stopped = false;
+    protected $stopped = FALSE;
 
     /**
      * Is propagation stopped?
@@ -38,5 +38,13 @@ abstract class StoppableEvent implements StoppableEventInterface
     public function isPropagationStopped(): bool
     {
         return $this->stopped;
+    }
+
+    /**
+     * @return void
+     */
+    public function stopEvent(): void
+    {
+        $this->stopped = TRUE;
     }
 }

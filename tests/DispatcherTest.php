@@ -6,12 +6,13 @@ namespace Phoole\Tests;
 
 use Phoole\Event\Provider;
 use Phoole\Event\Dispatcher;
-use Phoole\Event\StoppableEvent;
 use PHPUnit\Framework\TestCase;
+use Phoole\Event\Events\StoppableEvent;
 
 class DispatcherTest extends TestCase
 {
     private $obj;
+
     private $ref;
 
     protected function setUp(): void
@@ -23,14 +24,14 @@ class DispatcherTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->obj = $this->ref = null;
+        $this->obj = $this->ref = NULL;
         parent::tearDown();
     }
 
     protected function invokeMethod($methodName, array $parameters = array())
     {
         $method = $this->ref->getMethod($methodName);
-        $method->setAccessible(true);
+        $method->setAccessible(TRUE);
         return $method->invokeArgs($this->obj, $parameters);
     }
 
@@ -41,20 +42,20 @@ class DispatcherTest extends TestCase
     public function testGetListeners()
     {
         $provider1 = new Provider();
-        $f1 = function(StoppableEvent $e) { return 'called';};
+        $f1 = function(StoppableEvent $e) { return 'called'; };
         $provider1->attach($f1);
         $f2 = __NAMESPACE__ . '\\myFunc';
         $provider1->attach($f2, 100);
-        $this->invokeMethod('addProvider', [ $provider1 ]);
+        $this->invokeMethod('addProvider', [$provider1]);
 
         $provider2 = new Provider();
         $f3 = new myClass();
         $provider2->attach($f3);
         $f4 = [__NAMESPACE__ . '\\myClass', 'myStatic'];
         $provider2->attach($f4, 80);
-        $this->invokeMethod('addProvider', [ $provider2 ]);
+        $this->invokeMethod('addProvider', [$provider2]);
 
-        $listeners = $this->invokeMethod('getListeners', [ new myEvent() ]);
+        $listeners = $this->invokeMethod('getListeners', [new myEvent()]);
         $result = [];
         foreach ($listeners as $l) {
             $result[] = $l;
@@ -77,7 +78,7 @@ class DispatcherTest extends TestCase
         $e = new myEvent();
         $this->expectOutputString('bingo');
         $obj->dispatch($e);
-        $e->stopIt(true);
+        $e->stopEvent();
         $obj->dispatch($e);
     }
 
@@ -88,8 +89,8 @@ class DispatcherTest extends TestCase
     {
         $p1 = new Provider();
         $p2 = new Provider();
-        $this->invokeMethod('addProvider', [ $p1 ]);
-        $this->invokeMethod('addProvider', [ $p2 ]);
+        $this->invokeMethod('addProvider', [$p1]);
+        $this->invokeMethod('addProvider', [$p2]);
 
         $f = new myClass();
         $p2->attach($f);

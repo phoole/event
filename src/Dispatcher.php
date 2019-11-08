@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Phoole\Event;
 
-use Phoole\Base\Queue\PriorityQueue;
+use Phoole\Base\Queue\UniquePriorityQueue;
 use Psr\EventDispatcher\StoppableEventInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
@@ -29,9 +29,9 @@ class Dispatcher implements EventDispatcherInterface
     protected $providers = [];
 
     /**
-     * Init with providers
+     * Dispatcher constructor.
      *
-     * @param ListenerProviderInterface $providers
+     * @param  ListenerProviderInterface ...$providers
      */
     public function __construct(ListenerProviderInterface ...$providers)
     {
@@ -43,7 +43,7 @@ class Dispatcher implements EventDispatcherInterface
     /**
      * Provide all relevant listeners with an event to process.
      *
-     * @param object $event
+     * @param  object $event
      *   The object to process.
      *
      * @return object
@@ -63,9 +63,9 @@ class Dispatcher implements EventDispatcherInterface
     /**
      * Add a provider to the dispatcher
      *
-     * @param   ListenerProviderInterface $provider
-     * @throws  \RuntimeException  if provider duplicated
+     * @param  ListenerProviderInterface $provider
      * @return  void
+     * @throws  \RuntimeException  if provider duplicated
      */
     protected function addProvider(ListenerProviderInterface $provider)
     {
@@ -77,10 +77,15 @@ class Dispatcher implements EventDispatcherInterface
         }
     }
 
+    /**
+     * @param  object $event
+     * @return iterable
+     */
     protected function getListeners(object $event): iterable
     {
-        $queue = new PriorityQueue();
+        $queue = new UniquePriorityQueue();
         foreach ($this->providers as $provider) {
+            /** @var UniquePriorityQueue $q */
             $q = $provider->getListenersForEvent($event);
             if (count($q)) {
                 $queue = $queue->combine($q);

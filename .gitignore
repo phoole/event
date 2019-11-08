@@ -1,11 +1,16 @@
-# git stuff
-.git
-
 # composer files
 composer.phar
 composer.lock
-vendor
+vendor/
 
 # phpunit files
 phpunit.phar
-.phpunit.result.cache
+.phpunit*
+
+# editors
+.idea/
+.project
+.DS_Store
+.git/
+.settings/
+.buildpath

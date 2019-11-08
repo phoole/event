@@ -4,8 +4,8 @@ engines:
     enabled: true
     config:
       languages:
-      - javascript
-      - php
+        - javascript
+        - php
   eslint:
     enabled: true
   fixme:
@@ -23,8 +23,8 @@ engines:
         enabled: false
 ratings:
   paths:
-  - "**.js"
-  - "**.php"
+    - "**.js"
+    - "**.php"
 exclude_paths:
   - tests/
   - build/

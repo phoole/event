@@ -13,7 +13,6 @@ namespace Phoole\Event;
 
 use Phoole\Base\Queue\PriorityQueue;
 use Phoole\Base\Reflect\ParameterTrait;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
@@ -27,12 +26,13 @@ class Provider implements ListenerProviderInterface
 
     /**
      * event classes listened
+     *
      * @var PriorityQueue[]
      */
     protected $listened = [];
 
     /**
-     * @param object $event
+     * @param  object $event
      *   An event for which to return the relevant listeners.
      * @return iterable
      *   An iterable (array, iterator, or generator) of callables.  Each
@@ -52,11 +52,11 @@ class Provider implements ListenerProviderInterface
     /**
      * Attach a listener (with default priority 50) to the provider
      *
-     * @param  callable  $callable          MUST be type-compatible with $event.
-     * @param  int       $priority          range 0 - 100, 0 means lower priority
-     * @throws \InvalidArgumentException    unknown type of callable found
-     * @throws \RuntimeException            reflection problem found
+     * @param  callable $callable  MUST be type-compatible with $event.
+     * @param  int      $priority  range 0 - 100, 0 means lower priority
      * @return ListenerProviderInterface $this
+     * @throws \RuntimeException            reflection problem found
+     * @throws \InvalidArgumentException    unknown type of callable found
      */
     public function attach(callable $callable, int $priority = 50): ListenerProviderInterface
     {
@@ -72,9 +72,9 @@ class Provider implements ListenerProviderInterface
      * Get callable's first argument EVENT class.
      *
      * @param  callable $callable
-     * @throws \InvalidArgumentException    unknown type of callable found
-     * @throws \RuntimeException            reflection problem found
      * @return string                       classname or interface name
+     * @throws \RuntimeException            reflection problem found
+     * @throws \InvalidArgumentException    unknown type of callable found
      */
     protected function getEventClass(callable $callable): string
     {

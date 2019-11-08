@@ -6,7 +6,7 @@ namespace Phoole\Tests;
 
 use Phoole\Event\Provider;
 use PHPUnit\Framework\TestCase;
-use Phoole\Event\StoppableEvent;
+use Phoole\Event\Events\StoppableEvent;
 
 function myFunc(StoppableEvent $e)
 {
@@ -33,7 +33,6 @@ class myClass
 
     public function noParam()
     {
-
     }
 
     public function paramIsString(string $s)
@@ -44,15 +43,12 @@ class myClass
 
 class myEvent extends StoppableEvent
 {
-    public function stopIt(bool $stopped)
-    {
-        $this->stopped = $stopped;
-    }
 }
 
 class ProviderTest extends TestCase
 {
     private $obj;
+
     private $ref;
 
     protected function setUp(): void
@@ -64,14 +60,14 @@ class ProviderTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->obj = $this->ref = null;
+        $this->obj = $this->ref = NULL;
         parent::tearDown();
     }
 
     protected function invokeMethod($methodName, array $parameters = array())
     {
         $method = $this->ref->getMethod($methodName);
-        $method->setAccessible(true);
+        $method->setAccessible(TRUE);
         return $method->invokeArgs($this->obj, $parameters);
     }
 
@@ -82,7 +78,7 @@ class ProviderTest extends TestCase
     {
         // string
         $this->assertEquals(
-            'Phoole\Event\StoppableEvent',
+            StoppableEvent::class,
             $this->invokeMethod('getEventClass', [__NAMESPACE__ . '\\myFunc'])
         );
 
@@ -91,7 +87,7 @@ class ProviderTest extends TestCase
         $this->assertEquals(
             'Phoole\Event\StoppableEvent',
             $this->invokeMethod('getEventClass', [[new myClass(), 'noParam']])
-        );        
+        );
     }
 
     /**
