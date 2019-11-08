@@ -13,7 +13,7 @@ Installation
 Install via the `composer` utility.
 
 ```
-composer require "Phoole/event"
+composer require "phoole/event"
 ```
 
 or add the following lines to your `composer.json`
@@ -21,7 +21,7 @@ or add the following lines to your `composer.json`
 ```json
 {
     "require": {
-       "Phoole/event": "1.*"
+       "phoole/event": "1.*"
     }
 }
 ```
@@ -59,7 +59,7 @@ Usage
       }
   } 
   
-  // create event dispatcher
+  // initiate event dispatcher
   $events = new Dispatcher(new Provider());
 
   // bind a callable with default priority 50 (0-100)
@@ -105,7 +105,7 @@ Usage
   
       public function getUserInfo(): array
       {
-          return $this->>userInfo;
+          return $this->userInfo;
       }
   }
   
@@ -126,14 +126,14 @@ Usage
   
   ...
 
-  // once user logged in, trigger the event
-  // both listeners will process the event
+  // upon user logged in, trigger the event
+  // BOTH listeners will process THIS event
   $events->dispatcher(new MyAuthEvent($userInfo));
   ```
   
-- <a name="listener"></a>Create a listener
+- <a name="listener"></a>Create a **listener class**
 
-  A `Listener` class may implement the `ListenerCapableInterface` and use
+  A listener class may implement the `ListenerCapableInterface` and use
   `ListenerCapableTrait`.
 
   ```php
@@ -180,10 +180,15 @@ Usage
   ```
   
   Along with container library `phoole/di`, developer may not event worry
-  about setting up dispatcher, provider or inject the provider.
+  about setting up dispatcher, provider or injecting the provider.
   
   ```php
+  use Phoole\Di\Container;
+  
+  // initiate the listener with dependencies injected
   $listener = Container::create(MyListener::class);
+  
+  // fire the event
   Container::events()->dispatch(new MyEvent());
   ```
 
@@ -218,9 +223,10 @@ Usage
   ```
   
   Along with container library `phoole/di`, developer may not event worry
-  about setting up dispatcher, provider or inject the dispatcher.
+  about setting up dispatcher, provider or injecting the dispatcher.
   
   ```php
+  // initiate object with dependencies injected
   $eventCapable = Container::create(MyEventCapable::class);
   
   // will trigger an event
