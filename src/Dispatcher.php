@@ -14,7 +14,6 @@ namespace Phoole\Event;
 use Phoole\Base\Queue\UniquePriorityQueue;
 use Psr\EventDispatcher\StoppableEventInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
  * Dispatcher
@@ -24,16 +23,16 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 class Dispatcher implements EventDispatcherInterface
 {
     /**
-     * @var ListenerProviderInterface[]
+     * @var Provider[]
      */
     protected $providers = [];
 
     /**
      * Dispatcher constructor.
      *
-     * @param  ListenerProviderInterface ...$providers
+     * @param  Provider ...$providers
      */
-    public function __construct(ListenerProviderInterface ...$providers)
+    public function __construct(Provider ...$providers)
     {
         foreach ($providers as $p) {
             $this->addProvider($p);
@@ -63,11 +62,11 @@ class Dispatcher implements EventDispatcherInterface
     /**
      * Add a provider to the dispatcher
      *
-     * @param  ListenerProviderInterface $provider
+     * @param  Provider $provider
      * @return  void
      * @throws  \RuntimeException  if provider duplicated
      */
-    protected function addProvider(ListenerProviderInterface $provider)
+    protected function addProvider(Provider $provider)
     {
         $hash = \spl_object_hash($provider);
         if (!isset($this->providers[$hash])) {

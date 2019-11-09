@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Phoole\Event;
 
-use Phoole\Base\Queue\PriorityQueue;
 use Phoole\Base\Reflect\ParameterTrait;
+use Phoole\Base\Queue\UniquePriorityQueue;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
@@ -27,7 +27,7 @@ class Provider implements ListenerProviderInterface
     /**
      * event classes listened
      *
-     * @var PriorityQueue[]
+     * @var UniquePriorityQueue[]
      */
     protected $listened = [];
 
@@ -40,7 +40,7 @@ class Provider implements ListenerProviderInterface
      */
     public function getListenersForEvent(object $event): iterable
     {
-        $queue = new PriorityQueue();
+        $queue = new UniquePriorityQueue();
         foreach ($this->listened as $class => $q) {
             if (is_a($event, $class) && count($q)) {
                 $queue = $queue->combine($q);
@@ -54,15 +54,15 @@ class Provider implements ListenerProviderInterface
      *
      * @param  callable $callable  MUST be type-compatible with $event.
      * @param  int      $priority  range 0 - 100, 0 means lower priority
-     * @return ListenerProviderInterface $this
+     * @return $this
      * @throws \RuntimeException            reflection problem found
      * @throws \InvalidArgumentException    unknown type of callable found
      */
-    public function attach(callable $callable, int $priority = 50): ListenerProviderInterface
+    public function attach(callable $callable, int $priority = 50)
     {
         $class = $this->getEventClass($callable);
         if (!isset($this->listened[$class])) {
-            $this->listened[$class] = new PriorityQueue();
+            $this->listened[$class] = new UniquePriorityQueue();
         }
         $this->listened[$class]->insert($callable, $priority);
         return $this;
@@ -80,12 +80,14 @@ class Provider implements ListenerProviderInterface
     {
         try {
             $params = $this->getCallableParameters($callable);
-
             $error = 'Listener must declare one object as event';
+
+            // only one parameter allowed
             if (1 != count($params)) {
                 throw new \InvalidArgumentException($error);
             }
 
+            // must be object
             $type = $params[0]->getType()->getName();
             if (class_exists($type) || interface_exists($type)) {
                 return $type;
