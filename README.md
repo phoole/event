@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://img.shields.io/github/v/release/phoole/event)](https://packagist.org/packages/phoole/event)
 [![License](https://img.shields.io/github/license/phoole/event)]()
 
-A slim and powerful PSR-14 event manager library for PHP
+Slim, powerful and full compatible PSR-14 event manager library for PHP.
 
 Installation
 ---
